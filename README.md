@@ -1,6 +1,6 @@
 # CSE 12 Winter 2023 PA4 - Iterators
 
-**Due date: Thursday, May 4 @ 11:59 PM PDT**
+**Due date: Thursday, May 11 @ 11:59 PM PDT**
 
 [There is an FAQ post on Piazza].  Please read that post first if you have any questions.
 
