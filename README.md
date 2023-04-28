@@ -1,4 +1,4 @@
-# CSE 12 Winter 2023 PA4 - Iterators
+# CSE 12 Spring 2023 PA4 - Iterators
 
 **Due date: Thursday, May 11 @ 11:59 PM PDT**
 
