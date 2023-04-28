@@ -2,7 +2,7 @@
 
 **Due date: Thursday, May 11 @ 11:59 PM PDT**
 
-[There is an FAQ post on Piazza].  Please read that post first if you have any questions.
+There is an FAQ post on Piazza.  Please read that post first if you have any questions.
 
 
 ### **Learning goals**
