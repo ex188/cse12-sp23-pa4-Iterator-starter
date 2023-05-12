@@ -38,6 +38,7 @@ public class MyListIteratorCustomTester {
         listLen2Iter.idx=2;
         assertThrows(NoSuchElementException.class, ()->{listLen2Iter.next();});
         assertEquals("Index after called next", 2, listLen2Iter.idx);
+        assertEquals("Check the end", listLen2.tail, listLen2Iter.right);
         assertFalse("Not able to remove node", listLen2Iter.canRemoveOrSet);
         assertTrue("Direction is forward", listLen2Iter.forward);
     }

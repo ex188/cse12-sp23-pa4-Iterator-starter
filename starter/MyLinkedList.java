@@ -10,13 +10,10 @@
  */
 
 
-import java.util.AbstractList;
-import java.util.NoSuchElementException;
-
-import javax.sound.sampled.BooleanControl;
-
-import java.util.ListIterator;
-import java.util.Iterator;
+ import java.util.AbstractList;
+ import java.util.Iterator;
+ import java.util.NoSuchElementException;
+ import java.util.ListIterator;
 /** 
  * MyLinkedList class hold to all the method that 
  * should be modify from the extends class AbstractList. 
@@ -97,6 +94,116 @@ public class MyLinkedList<E> extends AbstractList<E> {
         public E getElement() {
             return this.data;
         } 
+    }
+
+    protected class MyListIterator implements ListIterator<E> {
+
+        // class variables here
+        Node left,right;
+        int idx;
+        boolean forward;
+        boolean canRemoveOrSet;
+
+        public MyListIterator(){
+            left=head;
+            right=head.getNext();
+            idx=0;
+            forward=true;
+            canRemoveOrSet=false;
+        }
+        // MyListIterator methods
+        public boolean hasNext() {
+            return idx<size();
+        }
+        // more methods, etc.
+
+        public E next(){
+            if (!hasNext()){
+                throw new NoSuchElementException();
+            }
+            right=right.getNext();
+            left=left.getNext();
+            idx++;
+            canRemoveOrSet=true;
+            forward=true;
+            return (E) left.getElement();
+        }
+
+        public boolean hasPrevious(){
+            return idx>0;
+        }
+
+        public E previous(){
+            if (!hasPrevious()){
+                throw new NoSuchElementException();
+            }
+            right=right.getPrev();
+            left=left.getPrev();
+            idx--;
+            canRemoveOrSet=true;
+            forward=false;
+            return (E) right.getElement();
+        }
+
+        public int nextIndex() {
+            if (!hasNext()) {
+                return idx;
+            }
+            return idx++;
+        }
+
+        public int previousIndex() {
+            if (!hasPrevious()) {
+                return -1;
+            }
+            return --idx;
+        }
+
+        public void add(E element){
+            if (element==null){
+                throw new NullPointerException();
+            }
+            Node added=new Node(element);
+            added.setNext(left.getNext());
+            added.setPrev(right.getPrev());
+            left.setNext(added);
+            right.setPrev(added);
+            left=left.getNext();
+            canRemoveOrSet=false;
+            idx++;
+        }
+
+        public void set(E element){
+            if (element==null){
+                throw new NullPointerException();
+            }
+            if (!canRemoveOrSet){
+                throw new IllegalStateException();
+            }
+            if (!forward){
+                right.setElement(element);;
+            }
+            else left.setElement(element);;
+        }
+
+        public void remove(){
+            if (!canRemoveOrSet){
+                throw new IllegalStateException();
+            }
+            if(forward){
+                left=left.getPrev();
+                right.setPrev(left);
+                left.setNext(right);
+                canRemoveOrSet=false;
+                idx-=1;
+            }
+            else{
+                right=right.getNext();
+                left.setNext(right);
+                right.setPrev(left);
+                canRemoveOrSet=false;            
+            }
+        }
     }
 
     //  Implementation of the MyLinkedList Class
@@ -296,117 +403,5 @@ public class MyLinkedList<E> extends AbstractList<E> {
             output = output.getNext();
         }
         return (Node) output;
-    }
-
-    protected class MyListIterator implements ListIterator<E> {
-
-        // class variables here
-        Node left,right;
-        int idx;
-        boolean forward;
-        boolean canRemoveOrSet;
-
-        public MyListIterator(){
-            left=head;
-            right=head.getNext();
-            idx=0;
-            forward=true;
-            canRemoveOrSet=false;
-        }
-        // MyListIterator methods
-        public boolean hasNext() {
-            return idx<size();
-        }
-        // more methods, etc.
-
-        @SuppressWarnings("unchecked")
-        public E next(){
-            if (!hasNext()){
-                throw new NoSuchElementException();
-            }
-            right=right.getNext();
-            left=left.getNext();
-            idx++;
-            canRemoveOrSet=true;
-            forward=true;
-            return (E) left.getElement();
-        }
-
-        public boolean hasPrevious(){
-            return idx>0;
-        }
-        
-        @SuppressWarnings("unchecked")
-        public E previous(){
-            if (!hasPrevious()){
-                throw new NoSuchElementException();
-            }
-            right=right.getPrev();
-            left=left.getPrev();
-            idx--;
-            canRemoveOrSet=true;
-            forward=false;
-            return (E) right.getElement();
-        }
-
-        public int nextIndex() {
-            if (!hasNext()) {
-                return idx;
-            }
-            return idx++;
-        }
-
-        public int previousIndex(){
-            if (hasPrevious()){
-                return idx-=1;
-            }
-            return -1;
-        }
-
-        public void add(E element){
-            if (element==null){
-                throw new NullPointerException();
-            }
-            Node added=new Node(element);
-            added.setNext(left.getNext());
-            added.setPrev(right.getPrev());
-            left.setNext(added);
-            right.setPrev(added);
-            left=left.getNext();
-            canRemoveOrSet=false;
-            idx++;
-        }
-
-        public void set(E element){
-            if (element==null){
-                throw new NullPointerException();
-            }
-            if (!canRemoveOrSet){
-                throw new IllegalStateException();
-            }
-            if (!forward){
-                right.setElement(element);;
-            }
-            else left.setElement(element);;
-        }
-
-        public void remove(){
-            if (!canRemoveOrSet){
-                throw new IllegalStateException();
-            }
-            if(forward){
-                left=left.getPrev();
-                right.setPrev(left);
-                left.setNext(right);
-                canRemoveOrSet=false;
-                idx-=1;
-            }
-            else{
-                right=right.getNext();
-                left.setNext(right);
-                right.setPrev(left);
-                canRemoveOrSet=false;            
-            }
-        }
     }
 }
