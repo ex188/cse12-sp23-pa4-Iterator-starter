@@ -1,3 +1,13 @@
+/*
+ * Name: Anthony Chu
+ * Email: abc004@ucsd.edu
+ * PID: A17496679
+ * Did not use any outside source
+ * 
+ * A gather of testers that will test out the
+ * methods wrote in MyLinkedList.java about 
+ * iterator
+ */
 import static org.junit.Assert.*;
 
 import java.util.NoSuchElementException;
@@ -38,7 +48,7 @@ public class MyListIteratorCustomTester {
         listLen2Iter.idx=2;
         assertThrows(NoSuchElementException.class, ()->{listLen2Iter.next();});
         assertEquals("Index after called next", 2, listLen2Iter.idx);
-        assertEquals("Check the end", listLen2.tail, listLen2Iter.right);
+        assertEquals("Check tail", listLen2.tail, listLen2Iter.right);
         assertFalse("Not able to remove node", listLen2Iter.canRemoveOrSet);
         assertTrue("Direction is forward", listLen2Iter.forward);
     }
@@ -136,6 +146,7 @@ public class MyListIteratorCustomTester {
     @Test
     public void testNextIndexEnd() {
         listLen2Iter.next();
-        assertEquals("check next index at end for len2", 1, listLen2Iter.nextIndex());
+        listLen2Iter.next();
+        assertEquals("check next index at end for len2", 2, listLen2Iter.nextIndex());
     }
 }

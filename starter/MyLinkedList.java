@@ -3,6 +3,7 @@
  * Email: abc004@ucsd.edu
  * PID: A17496679
  * Did not use any outside source
+ * 
  * A gather of method for class MyLinkedList that 
  * includes constructor, inner class and public methods. 
  * The purpose is to let user access the MyLinkedList 
@@ -96,6 +97,12 @@ public class MyLinkedList<E> extends AbstractList<E> {
         } 
     }
 
+    /**
+     * A class MylistIterator that will create a iterator to
+     * go through the LinkedList
+     * It will modifty the at the position instead of getting
+     * an element each time by using loop
+     */
     protected class MyListIterator implements ListIterator<E> {
 
         // class variables here
@@ -104,6 +111,9 @@ public class MyLinkedList<E> extends AbstractList<E> {
         boolean forward;
         boolean canRemoveOrSet;
 
+        /**
+         * Contructor to initailize variables
+         */
         public MyListIterator(){
             left=head;
             right=head.getNext();
@@ -111,12 +121,23 @@ public class MyLinkedList<E> extends AbstractList<E> {
             forward=true;
             canRemoveOrSet=false;
         }
-        // MyListIterator methods
-        public boolean hasNext() {
-            return idx<size();
-        }
-        // more methods, etc.
 
+        // MyListIterator methods
+
+        /**
+         * Return if the iterator has next element
+         * 
+         * @return true if next element exist
+         */
+        public boolean hasNext() {
+            return !(right == tail);
+        }
+
+        /**
+         * Return the next element by the iterator
+         * 
+         * @return the next element
+         */
         public E next(){
             if (!hasNext()){
                 throw new NoSuchElementException();
@@ -129,10 +150,20 @@ public class MyLinkedList<E> extends AbstractList<E> {
             return (E) left.getElement();
         }
 
+        /**
+         * Return if the iterator has a previous element
+         * 
+         * @return true if previous element exist
+         */
         public boolean hasPrevious(){
             return idx>0;
         }
 
+        /**
+         * Return the previous element by the iterator
+         * 
+         * @return the previous element
+         */
         public E previous(){
             if (!hasPrevious()){
                 throw new NoSuchElementException();
@@ -145,6 +176,12 @@ public class MyLinkedList<E> extends AbstractList<E> {
             return (E) right.getElement();
         }
 
+        /**
+         * Return the next index of current element's index
+         * Return the list size if it is at the end
+         * 
+         * @return the next index or size
+         */
         public int nextIndex() {
             if (!hasNext()) {
                 return idx;
@@ -152,13 +189,26 @@ public class MyLinkedList<E> extends AbstractList<E> {
             return idx++;
         }
 
+        /**
+         * Return the previous index of current element's index
+         * Return the list size if it is at the start
+         * 
+         * @return the previous index or -1
+         */
         public int previousIndex() {
             if (!hasPrevious()) {
                 return -1;
             }
             return --idx;
         }
-
+            
+        /**
+         * Add the element into the list at current index
+         * it will be insert infront of the next element
+         * 
+         * @param element the element need to be insert
+         * 
+         */
         public void add(E element){
             if (element==null){
                 throw new NullPointerException();
@@ -173,6 +223,13 @@ public class MyLinkedList<E> extends AbstractList<E> {
             idx++;
         }
 
+        /**
+         * Replace the most recent element that was
+         * called
+         * 
+         * @param element the element that will replace
+         * the original
+         */
         public void set(E element){
             if (element==null){
                 throw new NullPointerException();
@@ -186,6 +243,10 @@ public class MyLinkedList<E> extends AbstractList<E> {
             else left.setElement(element);;
         }
 
+        /**
+         * Remove the most recent element that was
+         * called
+         */
         public void remove(){
             if (!canRemoveOrSet){
                 throw new IllegalStateException();
@@ -204,6 +265,14 @@ public class MyLinkedList<E> extends AbstractList<E> {
                 canRemoveOrSet=false;            
             }
         }
+    }
+
+    public ListIterator<E> listIterator() {
+        return new MyListIterator();
+    }
+    
+    public Iterator<E> iterator() {
+        return new MyListIterator();
     }
 
     //  Implementation of the MyLinkedList Class
@@ -404,4 +473,5 @@ public class MyLinkedList<E> extends AbstractList<E> {
         }
         return (Node) output;
     }
+    
 }
